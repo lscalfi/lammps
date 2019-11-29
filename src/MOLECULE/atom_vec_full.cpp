@@ -62,6 +62,7 @@ void AtomVecFull::grow(int n)
   mask = memory->grow(atom->mask,nmax,"atom:mask");
   image = memory->grow(atom->image,nmax,"atom:image");
   x = memory->grow(atom->x,nmax,3,"atom:x");
+  w = memory->grow(atom->w,nmax,"atom:w");
   v = memory->grow(atom->v,nmax,3,"atom:v");
   f = memory->grow(atom->f,nmax*comm->nthreads,3,"atom:f");
 
@@ -133,7 +134,7 @@ void AtomVecFull::grow_reset()
 {
   tag = atom->tag; type = atom->type;
   mask = atom->mask; image = atom->image;
-  x = atom->x; v = atom->v; f = atom->f;
+  x = atom->x; w = atom->w; v = atom->v; f = atom->f;
   q = atom->q; molecule = atom->molecule;
   nspecial = atom->nspecial; special = atom->special;
   num_bond = atom->num_bond; bond_type = atom->bond_type;
@@ -164,6 +165,7 @@ void AtomVecFull::copy(int i, int j, int delflag)
   x[j][0] = x[i][0];
   x[j][1] = x[i][1];
   x[j][2] = x[i][2];
+  w[j] = w[i];
   v[j][0] = v[i][0];
   v[j][1] = v[i][1];
   v[j][2] = v[i][2];
@@ -1055,6 +1057,7 @@ bigint AtomVecFull::memory_usage()
   if (atom->memcheck("mask")) bytes += memory->usage(mask,nmax);
   if (atom->memcheck("image")) bytes += memory->usage(image,nmax);
   if (atom->memcheck("x")) bytes += memory->usage(x,nmax,3);
+  if (atom->memcheck("w")) bytes += memory->usage(w,nmax);
   if (atom->memcheck("v")) bytes += memory->usage(v,nmax,3);
   if (atom->memcheck("f")) bytes += memory->usage(f,nmax*comm->nthreads,3);
 

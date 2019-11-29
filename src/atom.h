@@ -55,7 +55,7 @@ class Atom : protected Pointers {
   tagint *tag;
   int *type,*mask;
   imageint *image;
-  double **x,**v,**f;
+  double **x, *w,**v,**f;
 
   tagint *molecule;
   int *molindex,*molatom;
